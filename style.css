@@ -1,0 +1,67 @@
+/* 책꾸 — 그림 톤(따뜻한 크림·나무 갈색·금색)에 맞춘 최소 스타일, 이모지 없음 */
+:root{
+  --ink:#3b2a1a; --cream:#fbf3dc; --cream2:#f3e4c0; --gold:#c9a24a; --gold2:#e3c98f;
+  --wood:#9a5a2b; --wood2:#6f3c18; --bg:#2a1a11;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh;
+  word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+button{font:inherit;cursor:pointer}
+.bgblur{position:fixed;inset:0;background-size:cover;background-position:center;filter:blur(34px) brightness(.5) saturate(1.1);transform:scale(1.15);z-index:-1}
+
+#top{display:flex;align-items:baseline;gap:12px;padding:14px 28px;color:var(--cream)}
+.logo{font-weight:900;font-size:1.4rem;letter-spacing:2px}
+.sub{font-size:.88rem;opacity:.75}
+#app{padding:6px 16px 40px}
+
+/* 그림 프레임 (모든 그림은 세로형이라 같은 비율) */
+.frame{position:relative;height:min(84vh,820px);aspect-ratio:998/1575;border-radius:22px;overflow:hidden;background:#1d120b;
+  box-shadow:0 0 0 1px #c9a24a55,0 22px 60px #000b}
+.frame .bg,.frame .layer img,.frame .i3{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;pointer-events:none}
+.hot{position:absolute;border:none;background:transparent;cursor:pointer;border-radius:16px;transition:background .25s,box-shadow .25s}
+.hot:hover,.hot:focus-visible{background:#fff4cf1f;box-shadow:0 0 40px 8px #ffe2a066,inset 0 0 0 2px #fff1c888;outline:none}
+.hint{color:var(--cream);opacity:.9;margin:0;line-height:1.5}
+
+/* 1) 문 */
+.doorpage{display:flex;flex-direction:column;align-items:center;gap:14px}
+/* 문 그림이 문 안쪽으로 확대되는 동안, 방 그림은 원래 크기로 서서히 나타난다 */
+.door .layer{position:absolute;inset:0;transform-origin:50% 54%;transition:transform 1.8s cubic-bezier(.65,0,.35,1)}
+.door .i2,.door .i3{opacity:0;transition:opacity .9s ease}
+.door.s1 .i2{opacity:1}
+.door.s2 .layer{transform:scale(3)}
+.door.s2 .i3{opacity:1;transition:opacity 1s ease .8s}
+.doorhot{left:22.5%;top:19.6%;width:54.5%;height:60.8%;border-radius:200px 200px 8px 8px}
+.door.s1 .doorhot{display:none}
+
+/* 2) 방 · 3) 책장 */
+.roompage{display:flex;justify-content:center;align-items:flex-start;gap:28px}
+.frame.zoomin{animation:zoomin .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes zoomin{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.shelfhot{left:30%;top:28.4%;width:31%;height:35.5%}
+.bookhot{left:42.5%;top:33.6%;width:23.8%;height:20%;border-radius:6px}
+
+.side{width:220px;display:flex;flex-direction:column;gap:14px;padding-top:6px}
+.menu{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:18px;background:#fbf3dcf0;box-shadow:0 0 0 1px var(--gold2),0 10px 30px #0007}
+
+/* 버튼: 스토리보드의 나무 갈색 알약 버튼 */
+.btn{display:block;width:100%;text-align:center;padding:11px 18px;border-radius:999px;font-weight:700;letter-spacing:.5px;
+  color:var(--cream);background:linear-gradient(#b0703a,var(--wood2));border:1.5px solid #5e3112;
+  box-shadow:inset 0 0 0 2px #e7b97a55,0 3px 0 #4a260c;transition:filter .15s,transform .1s}
+.btn:hover{filter:brightness(1.08)}.btn:active{transform:translateY(2px);box-shadow:inset 0 0 0 2px #e7b97a55,0 1px 0 #4a260c}
+.btn.ghost{color:var(--wood2);background:var(--cream);border-color:var(--gold2);box-shadow:inset 0 0 0 2px #fff8,0 3px 0 #c8ad74}
+
+/* 4) 책을 누르면 나오는 메시지 (스토리보드 카드 톤) */
+.msg{position:absolute;left:7%;right:7%;bottom:5%;padding:22px 22px 18px;text-align:center;border-radius:22px;
+  background:linear-gradient(#fdf7e6,var(--cream2));box-shadow:inset 0 0 0 1.5px var(--gold),inset 0 0 0 6px #fdf7e6,inset 0 0 0 7px var(--gold2),0 14px 34px #000a;
+  animation:rise .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.msg b{display:block;font-size:1.25rem;margin-bottom:6px}
+.msg p{margin:0 0 14px;line-height:1.5}
+.msg .row{display:flex;gap:10px;justify-content:center}.msg .row .btn{width:auto;min-width:120px}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,140px);background:#2a1a11;color:var(--cream);border:1px solid var(--gold);
+  padding:11px 22px;border-radius:999px;transition:transform .3s;z-index:40;max-width:90vw;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+
+@media (max-width:900px){.roompage{flex-direction:column;align-items:center}.side{width:min(420px,100%)}}
